@@ -4,16 +4,14 @@ import Auth from './components/Auth/Auth'
 import Dashboard from './components/Dashboard/Dashboard'
 import Form from './components/Form/Form'
 import Post from './components/Post/Post'
+import routes from './routes'
 import './App.css';
 
-function App() {
+function App(props) {
   return (
     <div className="App">
       <Nav/>
-      <Auth/>
-      <Dashboard/>
-      <Form/>
-      <Post/>
+      {routes}
     </div>
   );
 }

@@ -7,6 +7,8 @@ const  ctrl = require('./controller')
 
 const app = express()
 
+app.post('/auth/login', ctrl.login)
+app.post('/auth/register', ctrl.register)
 
 massive({
     connectionString: CONNECTION_STRING,
