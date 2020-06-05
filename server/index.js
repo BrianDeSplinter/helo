@@ -7,8 +7,11 @@ const  ctrl = require('./controller')
 
 const app = express()
 
+app.use(express.json())
+
 app.post('/auth/login', ctrl.login)
 app.post('/auth/register', ctrl.register)
+app.get('/auth/posts/')
 
 massive({
     connectionString: CONNECTION_STRING,

@@ -4,6 +4,7 @@ module.exports = {
         register: async (req, res) => {
         const db = req.app.get('db')
         const {username, password} = req.body
+        const pic = `https://robohash.org/${username}.png`
 
         const existingUser = await db.check_user(username)
 
@@ -14,14 +15,15 @@ module.exports = {
         const salt = bcrypt.genSaltSync(10)
         const hash = bcrypt.hashSync(password, salt)
 
-        const newUSer = await db.register_user([username, hash])
+        const newUser = await db.register_user([username, hash, pic])
 
-        req.session.user = {
+        req.user = {
             userId: newUser[0].id,
-            userName: newUser[0].username
+            userName: newUser[0].username,
+            profilePic: newUser[0].profile_pic
         }
 
-        res.status(200).send(req.session.user)
+        res.status(200).send(req.user)
     },
 
     login: async (req, res) => {
@@ -34,11 +36,12 @@ module.exports = {
         } else {
             const authenticated = bcrypt.compareSync(password, user[0].password)
             if(authenticated) {
-                req.session.user = {
+                req.user = {
                     userId: user[0].id,
-                    userName: user[0].username
+                    userName: user[0].username,
+                    profilePic: user[0].profile_pic
                 }
-                res.status(200).send(req.session.user)
+                res.status(200).send(req.user)
             } else {
                 res.status(403).send('Username or Password incorrect')
             }

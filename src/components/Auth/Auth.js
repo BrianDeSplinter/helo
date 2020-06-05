@@ -1,7 +1,9 @@
 import React, {Component} from 'react'
 import axios from 'axios'
+import {connect} from 'react-redux'
+import {loginUser} from '../../ducks/reducer'
 
-export default class Auth extends Component {
+class Auth extends Component {
     
     constructor(){
         super()
@@ -46,7 +48,7 @@ export default class Auth extends Component {
         return(
             <div>
                 <h3>This is Auth</h3>
-                <form>
+                <form >
                     <input
                         type='text'
                         placeholder='Username'
@@ -59,14 +61,18 @@ export default class Auth extends Component {
                     name='password'
                     value={password}
                     onChange={e => this.changeHandler(e)}/>
-                    <input
+                    <button
                         type='submit'
-                        value='Register'/>
-                    <input
+                        value='Register'
+                        onClick={(e) => this.register(e)}>Register</button>
+                    <button
                         type='submit'
-                        value='Login'/>
+                        value='Login'
+                        onClick={(e) => this.login(e)}>Login</button>
                 </form>
             </div>
         )
     }
 }
+
+export default connect(null, {loginUser})(Auth)
