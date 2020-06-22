@@ -46,5 +46,25 @@ module.exports = {
                 res.status(403).send('Username or Password incorrect')
             }
         }
+    },
+
+    delete: async (req, res) => {
+        const db = req.app.get('db')
+        const {userposts, search} = req.query
+        const {id} = req.params
+
+        const posts = await db.posts.find()
+
+        if (userposts && search) {
+            //return all posts where title contains string
+        } else if (!userposts && !search) {
+            //return all posts not by user
+        } else if (!userposts && search) {
+            // return all posts where title contains string & not by user
+        } else if (userposts && !search) {
+            // return all posts 
+        } else {
+            res.status(500).send('There was an error')
+        }
     }
 }
