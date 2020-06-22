@@ -11,7 +11,7 @@ app.use(express.json())
 
 app.post('/auth/login', ctrl.login)
 app.post('/auth/register', ctrl.register)
-app.get('/auth/posts/')
+app.get('/api/posts/:id', ctrl.search)
 
 massive({
     connectionString: CONNECTION_STRING,

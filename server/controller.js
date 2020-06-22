@@ -48,23 +48,28 @@ module.exports = {
         }
     },
 
-    delete: async (req, res) => {
+    search: async (req, res) => {
         const db = req.app.get('db')
-        const {userposts, search} = req.query
         const {id} = req.params
+        const {userPosts, search} = req.query
 
         const posts = await db.posts.find()
 
-        if (userposts && search) {
+        if (userPosts && search) {
             //return all posts where title contains string
-        } else if (!userposts && !search) {
+        } else if (!userPosts && !search) {
             //return all posts not by user
-        } else if (!userposts && search) {
+            const nonUserPosts = posts.filter(posts => {
+                return posts.author_id != id
+            })
+            res.status(200).send(nonUserPosts)
+        } else if (!userPosts && search) {
             // return all posts where title contains string & not by user
-        } else if (userposts && !search) {
+        } else if (userPosts && !search) {
             // return all posts 
+            res.status(200).send(posts)
         } else {
-            res.status(500).send('There was an error')
+            res.status(200).send(posts)
         }
     }
 }
